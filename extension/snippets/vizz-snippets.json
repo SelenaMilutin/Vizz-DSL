@@ -1,76 +1,99 @@
 {
+  "Keyword figure": { "prefix": "figure", "body": ["figure"], "description": "Keyword figure" },
+  "Keyword plot": { "prefix": "plot", "body": ["plot"], "description": "Keyword plot" },
+  "Keyword bar": { "prefix": "bar", "body": ["bar"], "description": "Keyword bar" },
+  "Keyword scatter": { "prefix": "scatter", "body": ["scatter"], "description": "Keyword scatter" },
+  "Keyword pie": { "prefix": "pie", "body": ["pie"], "description": "Keyword pie" },
+  "Keyword save": { "prefix": "save", "body": ["save"], "description": "Keyword save" },
+  "Keyword rows": { "prefix": "rows", "body": ["rows"], "description": "Keyword rows" },
+  "Keyword cols": { "prefix": "cols", "body": ["cols"], "description": "Keyword cols" },
+  "Keyword size": { "prefix": "size", "body": ["size"], "description": "Keyword size" },
+  "Keyword title": { "prefix": "title", "body": ["title"], "description": "Keyword title" },
+  "Keyword source": { "prefix": "source", "body": ["source"], "description": "Keyword source" },
+  "Keyword position": { "prefix": "position", "body": ["position"], "description": "Keyword position" },
+  "Keyword x": { "prefix": "x", "body": ["x"], "description": "Keyword x" },
+  "Keyword y": { "prefix": "y", "body": ["y"], "description": "Keyword y" },
+  "Keyword values": { "prefix": "values", "body": ["values"], "description": "Keyword values" },
+  "Keyword labels": { "prefix": "labels", "body": ["labels"], "description": "Keyword labels" },
+  "Keyword color": { "prefix": "color", "body": ["color"], "description": "Keyword color" },
+  "Keyword label": { "prefix": "label", "body": ["label"], "description": "Keyword label" },
+  "Keyword xlabel": { "prefix": "xlabel", "body": ["xlabel"], "description": "Keyword xlabel" },
+  "Keyword ylabel": { "prefix": "ylabel", "body": ["ylabel"], "description": "Keyword ylabel" },
+  "Keyword legend": { "prefix": "legend", "body": ["legend"], "description": "Keyword legend" },
+  "Keyword grid": { "prefix": "grid", "body": ["grid"], "description": "Keyword grid" },
+
   "Figure": {
     "prefix": "figure",
     "body": [
       "figure ${1:name} {",
-      "    size: (${2:12}, ${3:8})",
-      "    title: \"${4:Title}\"",
-      "    rows: ${5:1}",
-      "    cols: ${6:1}",
-      "    source: \"${7:./data/file.csv}\"",
-      "",
-      "    $0",
-      "",
-      "    save: \"${8:output.png}\"",
+      "\tsize: (${2:10}, ${3:6})",
+      "\trows: ${4:1}",
+      "\tcols: ${5:1}",
+      "\tsource: \"${6:./data.csv}\"",
+      "\t$0",
       "}"
     ],
-    "description": "Figure block"
+    "description": "Create a figure"
   },
 
-  "Line plot": {
+  "Line Plot": {
     "prefix": "plot",
     "body": [
       "plot {",
-      "    position: (${1:1}, ${2:1})",
-      "    x: source.${3:column}",
-      "    y: source.${4:column}",
-      "    label: \"${5:Label}\"",
-      "    color: \"${6:blue}\"",
-      "    xlabel: \"${7:X}\"",
-      "    ylabel: \"${8:Y}\"",
-      "    legend: true",
-      "    grid: true",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: ${4:column_y}",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:blue}\"",
+      "\txlabel: \"${7:X}\"",
+      "\tylabel: \"${8:Y}\"",
+      "\tlegend: ${9:true}",
+      "\tgrid: ${10:true}",
       "}"
-    ]
+    ],
+    "description": "Create a line plot"
   },
 
-  "Bar plot": {
+  "Bar Plot": {
     "prefix": "bar",
     "body": [
       "bar {",
-      "    position: (${1:1}, ${2:2})",
-      "    x: source.${3:column}",
-      "    y: [${4:10}, ${5:20}, ${6:30}]",
-      "    label: \"${7:Label}\"",
-      "    color: \"${8:orange}\"",
-      "    legend: true",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: [${4:10, 20, 30}]",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:orange}\"",
+      "\tlegend: ${7:true}",
       "}"
-    ]
+    ],
+    "description": "Create a bar plot"
   },
 
-  "Scatter plot": {
+  "Scatter Plot": {
     "prefix": "scatter",
     "body": [
       "scatter {",
-      "    position: (${1:2}, ${2:1})",
-      "    x: source.${3:x}",
-      "    y: source.${4:y}",
-      "    color: \"${5:green}\"",
-      "    label: \"${6:Label}\"",
-      "    grid: true",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: ${4:column_y}",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:red}\"",
+      "\tgrid: ${7:true}",
       "}"
-    ]
+    ],
+    "description": "Create a scatter plot"
   },
 
-  "Pie chart": {
+  "Pie Plot": {
     "prefix": "pie",
     "body": [
       "pie {",
-      "    position: (${1:2}, ${2:2})",
-      "    values: [${3:40}, ${4:30}, ${5:20}, ${6:10}]",
-      "    labels: [\"${7:A}\", \"${8:B}\", \"${9:C}\", \"${10:D}\"]",
-      "    title: \"${11:Pie chart}\"",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tvalues: [${3:10, 20, 30}]",
+      "\tlabels: [\"${4:A}\", \"${5:B}\", \"${6:C}\"]",
+      "\ttitle: \"${7:Pie Chart}\"",
       "}"
-    ]
+    ],
+    "description": "Create a pie chart"
   }
 }

@@ -1,6 +1,7 @@
 {
   "scopeName": "source.vizz",
   "patterns": [
+    { "include": "#comments" },
     { "include": "#keywords" },
     { "include": "#types" },
     { "include": "#strings" },
@@ -45,6 +46,19 @@
         {
           "name": "constant.language.boolean.vizz",
           "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.vizz",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.vizz",
+          "begin": "/\\*",
+          "end": "\\*/"
         }
       ]
     }

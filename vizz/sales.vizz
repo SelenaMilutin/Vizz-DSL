@@ -1,6 +1,4 @@
 figure full_dashboard {
-    size: (12, 8)
-    title: "Sales Dashboard"
     rows: 2
     cols: 2
     source: "./file.csv"
@@ -11,36 +9,23 @@ figure full_dashboard {
         y: source.price
         label: "Online sales"
         color: "blue"
-        xlabel: "Month"
-        ylabel: "Price"
-        legend: true
-        grid: true
+        // xlabel: "Month"
+        // ylabel: "Price"
+        // grid: true
     }
 
     bar {
-        position: (1, 2)
         x: source.date
         y: [80, 70, 60, 90, 110]
-        label: "Store sales"
-        color: "orange"
-        legend: true
     }
 
     scatter {
-        position: (2, 1)
         x: source.price
         y: source.quantity
-        color: "green"
-        label: "Price vs Quantity"
-        grid: true
     }
 
     pie {
-        position: (2, 2)
         values: [45, 25, 15, 15]
         labels: ["Product A", "Product B", "Product C", "Product D"]
-        title: "Market share"
     }
-
-    save: "dashboard.png"
 }
