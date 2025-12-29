@@ -1,0 +1,84 @@
+Model:
+    figures*=Figure
+;
+
+Figure:
+    'figure' name=ID '{'
+        'size:' size=Tuple
+        'title:' title=STRING
+        'rows:' rows=INT
+        'cols:' cols=INT
+        'source:' source=STRING
+        plots*=Plot
+        'save:' output=STRING
+    '}'
+;
+
+Plot:
+    LinePlot | BarPlot | ScatterPlot | PiePlot
+;
+
+LinePlot:
+    'plot' '{'
+        'position:' position=Tuple
+        'x:' x=Expression
+        'y:' y=Expression
+        'label:' label=STRING
+        'color:' color=STRING
+        'xlabel:' xlabel=STRING
+        'ylabel:' ylabel=STRING
+        'legend:' legend=BOOL
+        'grid:' grid=BOOL
+    '}'
+;
+
+BarPlot:
+    'bar' '{'
+        'position:' position=Tuple
+        'x:' x=Expression
+        'y:' y=List
+        'label:' label=STRING
+        'color:' color=STRING
+        'legend:' legend=BOOL
+    '}'
+;
+
+ScatterPlot:
+    'scatter' '{'
+        'position:' position=Tuple
+        'x:' x=Expression
+        'y:' y=Expression
+        'color:' color=STRING
+        'label:' label=STRING
+        'grid:' grid=BOOL
+    '}'
+;
+
+PiePlot:
+    'pie' '{'
+        'position:' position=Tuple
+        'values:' values=List
+        'labels:' labels=StringList
+        'title:' title=STRING
+    '}'
+;
+
+Expression:
+    ID ('.' ID)?
+;
+
+List:
+    '[' values+=INT[','] ']'
+;
+
+StringList:
+    '[' values+=STRING[','] ']'
+;
+
+Tuple:
+    '(' a=INT ',' b=INT ')'
+;
+
+BOOL:
+    'true' | 'false'
+;

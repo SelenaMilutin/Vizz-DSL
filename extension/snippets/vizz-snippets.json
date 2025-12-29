@@ -1,0 +1,76 @@
+{
+  "Figure": {
+    "prefix": "figure",
+    "body": [
+      "figure ${1:name} {",
+      "    size: (${2:12}, ${3:8})",
+      "    title: \"${4:Title}\"",
+      "    rows: ${5:1}",
+      "    cols: ${6:1}",
+      "    source: \"${7:./data/file.csv}\"",
+      "",
+      "    $0",
+      "",
+      "    save: \"${8:output.png}\"",
+      "}"
+    ],
+    "description": "Figure block"
+  },
+
+  "Line plot": {
+    "prefix": "plot",
+    "body": [
+      "plot {",
+      "    position: (${1:1}, ${2:1})",
+      "    x: source.${3:column}",
+      "    y: source.${4:column}",
+      "    label: \"${5:Label}\"",
+      "    color: \"${6:blue}\"",
+      "    xlabel: \"${7:X}\"",
+      "    ylabel: \"${8:Y}\"",
+      "    legend: true",
+      "    grid: true",
+      "}"
+    ]
+  },
+
+  "Bar plot": {
+    "prefix": "bar",
+    "body": [
+      "bar {",
+      "    position: (${1:1}, ${2:2})",
+      "    x: source.${3:column}",
+      "    y: [${4:10}, ${5:20}, ${6:30}]",
+      "    label: \"${7:Label}\"",
+      "    color: \"${8:orange}\"",
+      "    legend: true",
+      "}"
+    ]
+  },
+
+  "Scatter plot": {
+    "prefix": "scatter",
+    "body": [
+      "scatter {",
+      "    position: (${1:2}, ${2:1})",
+      "    x: source.${3:x}",
+      "    y: source.${4:y}",
+      "    color: \"${5:green}\"",
+      "    label: \"${6:Label}\"",
+      "    grid: true",
+      "}"
+    ]
+  },
+
+  "Pie chart": {
+    "prefix": "pie",
+    "body": [
+      "pie {",
+      "    position: (${1:2}, ${2:2})",
+      "    values: [${3:40}, ${4:30}, ${5:20}, ${6:10}]",
+      "    labels: [\"${7:A}\", \"${8:B}\", \"${9:C}\", \"${10:D}\"]",
+      "    title: \"${11:Pie chart}\"",
+      "}"
+    ]
+  }
+}
