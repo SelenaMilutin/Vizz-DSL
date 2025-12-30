@@ -16,5 +16,8 @@ dependencies = [
 [project.scripts]
 vizz = "vizz.interpreter:main"
 
+[project.entry-points.textx_languages]
+vizz = "vizz.language:vizz_language"
+
 [project.urls]
 Homepage = "https://github.com/USERNAME/vizz-dsl"

@@ -4,3 +4,12 @@ napravi se venv pa se instaliraju paketi sa: pip install textx matplotlib pandas
 
 ima i sintaks hyighlisght i autocomplete valjda, to su ovi json fajlovi u extension folderu
 da bi ekstenzija radila udje se u vscode, otvori se ctrl+shift+p, kuca se open extensions folder i u taj folder kad se otvori prekopira se nas folder extension, onda radi hajlajt mada ne znam da li je to sve kako treba al ajde, prvi pokusaj
+
+instalira se tako sto se pozicionira u vizz folder (ne onaj u src/vizz) i pokrene jedna od ovih komandi:
+pip install -e "git+https://github.com/SelenaMilutin/Vizz-DSL.git@randomgrana#egg=vizz&subdirectory=vizz"
+// kasnije bi trebalo da moze da se ukloni ovo za granu
+ili pip install -e .
+
+moze da se pokrene iz okruzenja komandom vizz, npr: vizz sales.vizz, to ce pozvati interpreter.py main funkciju i proslediti sales.vizz
+
+dodato je registrovanje u textx kao vizz jezik, ali ne znam da li treba jos nesto
