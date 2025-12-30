@@ -1,4 +1,5 @@
 import sys
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from textx import metamodel_from_file
@@ -145,7 +146,7 @@ def resolve_expression(df, expr):
     return df[name]
 
 def main():
-    mm = metamodel_from_file("vizz.tx")
+    mm = metamodel_from_file(os.path.join(os.path.dirname(__file__), "vizz.tx"))
     model = mm.model_from_file(sys.argv[1])
     interpret(model)
 
