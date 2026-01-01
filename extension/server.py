@@ -6,13 +6,7 @@ from textx.exceptions import TextXSyntaxError
 import os
 
 server = LanguageServer("vizz-lsp", "0.1.0")
-vizz_mm = metamodel_from_file(
-    os.path.normpath(
-        os.path.join(
-            os.path.dirname(__file__), "..", "vizz", "src", "vizz", "vizz.tx"
-            )
-        )
-)
+vizz_mm = metamodel_from_file(os.path.normpath(os.path.join(os.path.dirname(__file__), "vizz.tx")))
 
 def validate(document: TextDocument):
     diagnostics = []

@@ -23,3 +23,9 @@ pokretanje lsp-a ide ovako:
 4. da bi se lsp pokrenuo treba da se u vscode otvori extension folder (najbolje iz njega da se pokrene sa komandom: code .)
 5. kad se otvori onda se lsp pokrene sa F5, otvorice se novi prozor u kome mogu da se prave novi vizz fajlovi i tu ce da se vidi da li radi kako treba
   - moze i da se uveze nasa ekstenzija u vscode ali to mozemo na kraju ako nam bude trebalo kad testiranje bude gotovo
+
+moze da se instalira i u vscode
+1. ide se ctrl+shift+p
+2. install from vsix pa se izabere .vsix fajl (taj fajl se kreira sa npm run package iz foldera extensions, ali pre toga treba da se odradi npm run compile)
+3. tek kada se udje u neki .vizz fajl tek onda pravi venv i instalira pakete tamo gde je ekstenzija (isto to radi i ako se ekstenzija instalira na prethodni nacin)
+-- morao sam da prekopiram gramatiku vizz.tx i u folder gde je ekstenzija da bi mogao da vuce odatle da ne vuce od negde random sa kompjutera ili preko apsulutne putanje

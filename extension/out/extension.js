@@ -25,13 +25,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
+const cp = __importStar(require("child_process"));
+const vscode = __importStar(require("vscode"));
 const node_1 = require("vscode-languageclient/node");
 let client;
-function activate(context) {
+async function activate(context) {
     const serverPath = path.join(context.extensionPath, "server.py");
-    const pythonExePath = path.join(context.extensionPath, "..", "venv", "Scripts", "python.exe");
+    const pythonExe = await ensureVenv(context);
     const serverOptions = {
-        command: pythonExePath,
+        command: pythonExe,
         args: [serverPath]
     };
     const clientOptions = {
@@ -48,3 +51,26 @@ function deactivate() {
     return client.stop();
 }
 exports.deactivate = deactivate;
+function exec(cmd, cwd) {
+    return new Promise((resolve, reject) => {
+        cp.exec(cmd, { cwd }, (err) => {
+            if (err)
+                reject(err);
+            else
+                resolve();
+        });
+    });
+}
+async function ensureVenv(context) {
+    const venvDir = path.join(context.extensionPath, 'venv');
+    if (!fs.existsSync(venvDir)) {
+        vscode.window.showInformationMessage('Creating Python venv for Vizz...');
+        await exec(`python -m venv venv`, context.extensionPath);
+    }
+    const pythonExe = process.platform === 'win32'
+        ? path.join(venvDir, 'Scripts', 'python.exe')
+        : path.join(venvDir, 'bin', 'python');
+    vscode.window.showInformationMessage('Installing Python dependencies...');
+    await exec(`"${pythonExe}" -m pip install --upgrade pip textX pygls`, venvDir);
+    return pythonExe;
+}
