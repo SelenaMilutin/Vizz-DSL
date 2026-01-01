@@ -1,35 +1,53 @@
 from pygls.lsp.server import LanguageServer
 from lsprotocol import types
 from pygls.workspace import TextDocument
+from textx import metamodel_from_file
+from textx.exceptions import TextXSyntaxError
+import os
 
 server = LanguageServer("vizz-lsp", "0.1.0")
-
-
-def validate_text_document(document: TextDocument):
-    diagnostics = []
-
-    for idx, line in enumerate(document.lines):
-        if "plot" not in line:
-            diagnostics.append(
-                types.Diagnostic(
-                    message="Vizz program mora da sadrži 'plot'",
-                    severity=types.DiagnosticSeverity.Error,
-                    range=types.Range(
-                        start=types.Position(line=idx, character=0),
-                        end=types.Position(line=idx, character=len(line) - 1),
-                    )
-                )
+vizz_mm = metamodel_from_file(
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(__file__), "..", "vizz", "src", "vizz", "vizz.tx"
             )
+        )
+)
+
+def validate(document: TextDocument):
+    diagnostics = []
+    lines = document.lines
+    text = document.source
+
+    try:
+        vizz_mm.model_from_str(text)
+    except TextXSyntaxError as e:
+        line_idx = e.line - 1
+        col_idx = e.col - 1
+
+        line = lines[line_idx]
+
+        end_idx = col_idx
+        while end_idx < len(line) and not line[end_idx].isspace():
+            end_idx += 1
+
+        diagnostics.append(
+            types.Diagnostic(
+                range=types.Range(
+                    start=types.Position(line=line_idx, character=col_idx),
+                    end=types.Position(line=line_idx, character=end_idx),
+                ),
+                message=f"TextX syntax error: {e}",
+                severity=types.DiagnosticSeverity.Error,
+            )
+        )
 
     return diagnostics
 
-
 @server.feature(types.TEXT_DOCUMENT_DID_OPEN)
 def did_open(ls: LanguageServer, params: types.DidOpenTextDocumentParams):
-    print("desilo se (open)", flush=True)
-    
     doc = ls.workspace.get_text_document(params.text_document.uri)
-    diagnostics = validate_text_document(doc)
+    diagnostics = validate(doc)
 
     ls.text_document_publish_diagnostics(
         types.PublishDiagnosticsParams(
@@ -38,14 +56,11 @@ def did_open(ls: LanguageServer, params: types.DidOpenTextDocumentParams):
             diagnostics=diagnostics,
         )
     )
-
 
 @server.feature(types.TEXT_DOCUMENT_DID_CHANGE)
 def did_change(ls: LanguageServer, params: types.DidChangeTextDocumentParams):
-    print("desilo se (change)", flush=True)
-    
     doc = ls.workspace.get_text_document(params.text_document.uri)
-    diagnostics = validate_text_document(doc)
+    diagnostics = validate(doc)
 
     ls.text_document_publish_diagnostics(
         types.PublishDiagnosticsParams(
@@ -54,7 +69,6 @@ def did_change(ls: LanguageServer, params: types.DidChangeTextDocumentParams):
             diagnostics=diagnostics,
         )
     )
-
 
 if __name__ == "__main__":
     server.start_io()

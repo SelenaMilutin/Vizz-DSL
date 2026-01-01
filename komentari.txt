@@ -13,3 +13,13 @@ ili pip install -e .
 moze da se pokrene iz okruzenja komandom vizz, npr: vizz sales.vizz, to ce pozvati interpreter.py main funkciju i proslediti sales.vizz
 
 dodato je registrovanje u textx kao vizz jezik, ali ne znam da li treba jos nesto
+
+ima i lsp sad, vuce greske tako sto parsira model sa textx-om i prosledi greske ako ih ima
+pokretanje lsp-a ide ovako:
+1. u folderu Vizz-DSL da se napravi venv i da ima textx i pygls (pip install textx pygls). to treba da bi mogao da se koristi server.py
+  - moze da se koristi i drugi venv ili python.exe globalno ili odakle god, ali treba da se promeni u fajlu extension.ts i da se odradi npm run compile ponovo da bi se kreirao out/extension.js
+2. ode se u extension folder i pokrene npm install pa onda npm run compile (sad treba da ima out/extension.js fajl)
+3. ako treba da se menja putanja do vizz.tx fajla to se radi u server.py, ali trenutno vuce ovako kako je u projektu iz vizz/src/vizz/vizz.tx pa valjda nece trebati da se menja
+4. da bi se lsp pokrenuo treba da se u vscode otvori extension folder (najbolje iz njega da se pokrene sa komandom: code .)
+5. kad se otvori onda se lsp pokrene sa F5, otvorice se novi prozor u kome mogu da se prave novi vizz fajlovi i tu ce da se vidi da li radi kako treba
+  - moze i da se uveze nasa ekstenzija u vscode ali to mozemo na kraju ako nam bude trebalo kad testiranje bude gotovo

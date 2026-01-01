@@ -29,8 +29,9 @@ const node_1 = require("vscode-languageclient/node");
 let client;
 function activate(context) {
     const serverPath = path.join(context.extensionPath, "server.py");
+    const pythonExePath = path.join(context.extensionPath, "..", "venv", "Scripts", "python.exe");
     const serverOptions = {
-        command: "D:\\Faks\\Master\\Jezici specificni za domen\\Projekat\\Vizz-DSL\\venv\\Scripts\\python.exe",
+        command: pythonExePath,
         args: [serverPath]
     };
     const clientOptions = {

@@ -9,13 +9,11 @@ import {
 let client: LanguageClient;
 
 export function activate(context: vscode.ExtensionContext) {
-  const serverPath = path.join(
-    context.extensionPath,
-    "server.py"
-  );
+  const serverPath = path.join(context.extensionPath, "server.py");
+  const pythonExePath = path.join(context.extensionPath, "..", "venv", "Scripts", "python.exe");
 
   const serverOptions: ServerOptions = {
-    command: "D:\\Faks\\Master\\Jezici specificni za domen\\Projekat\\Vizz-DSL\\venv\\Scripts\\python.exe",
+    command: pythonExePath,
     args: [serverPath]
   };
 
