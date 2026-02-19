@@ -1,0 +1,108 @@
+Model:
+    figures*=Figure
+;
+
+Figure:
+    'figure' name=ID '{'
+        elements*=FigureElement
+    '}'
+;
+
+FigureElement:
+      Size
+    | Title
+    | Rows
+    | Cols
+    | Source
+    | Plot
+    | Save
+;
+
+Size:   'size:' size=Tuple ;
+Title:  'title:' title=STRING ;
+Rows:   'rows:' rows=INT ;
+Cols:   'cols:' cols=INT ;
+Source: 'source:' source=STRING ;
+Save:   'save:' output=STRING ;
+
+Plot:
+    LinePlot | BarPlot | ScatterPlot | PiePlot
+;
+
+PlotElement:
+      Position
+    | X
+    | Y
+    | YList
+    | Values
+    | Labels
+    | Label
+    | Color
+    | XLabel
+    | YLabel
+    | Legend
+    | Grid
+    | Title
+;
+
+Position: 'position:' position=Tuple ;
+X:        'x:' x=Expression ;
+Y:        'y:' y=Expression ;
+YList:    'y:' y=List ;
+Values:   'values:' values=List ;
+Labels:   'labels:' labels=StringList ;
+Label:    'label:' label=STRING ;
+Color:    'color:' color=STRING ;
+XLabel:   'xlabel:' xlabel=STRING ;
+YLabel:   'ylabel:' ylabel=STRING ;
+Legend:   'legend:' legend=BOOL ;
+Grid:     'grid:' grid=BOOL ;
+
+LinePlot:
+    'plot' '{'
+        elements*=PlotElement
+    '}'
+;
+
+BarPlot:
+    'bar' '{'
+        elements*=PlotElement
+    '}'
+;
+
+ScatterPlot:
+    'scatter' '{'
+        elements*=PlotElement
+    '}'
+;
+
+PiePlot:
+    'pie' '{'
+        elements*=PlotElement
+    '}'
+;
+
+Expression:
+    ID ('.' ID)?
+;
+
+List:
+    '[' values+=INT[','] ']'
+;
+
+StringList:
+    '[' values+=STRING[','] ']'
+;
+
+Tuple:
+    '(' a=INT ',' b=INT ')'
+;
+
+BOOL:
+    'true' | 'false'
+;
+
+Comment:
+    /\/\/.*$/ 
+  | /\/\*[\s\S]*?\*\//
+;
