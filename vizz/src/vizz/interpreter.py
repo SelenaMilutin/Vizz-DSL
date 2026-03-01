@@ -2,7 +2,54 @@ import sys
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from kaggle.api.kaggle_api_extended import KaggleApi
 from textx import metamodel_from_file
+
+def find_best_plot_type(element):
+    """
+    Infer best plot type for DefaultPlot.
+
+    Rules:
+    - If Values present → PiePlot
+    - If YList present → BarPlot
+    - If X and Y present:
+        - If X looks categorical → BarPlot
+        - Else → LinePlot
+    - Fallback → LinePlot
+    """
+
+    elems = element.elements
+
+    # Check for PiePlot
+    values = get_value(elems, "Values", "values", None)
+    labels = get_value(elems, "Labels", "labels", None)
+    if values is not None:
+        return "PiePlot"
+
+    # Check for BarPlot with YList
+    y_list = get_value(elems, "YList", "y", None)
+    if y_list is not None:
+        return "BarPlot"
+
+    # Check for X/Y
+    x = get_value(elems, "X", "x", None)
+    y = get_value(elems, "Y", "y", None)
+
+    if x is not None and y is not None:
+        if isinstance(x, str):
+            name = x.lower()
+            if any(word in name for word in ["category", "type", "group", "class"]):
+                return "BarPlot"
+
+        # Default numeric relation → line plot
+        return "LinePlot"
+
+    # If only Y exists → treat as bar
+    if y is not None:
+        return "BarPlot"
+
+    # Final fallback
+    return "LinePlot"
 
 def interpret(model):
     for fig in model.figures:
@@ -18,7 +65,7 @@ def interpret(model):
             float(size.a), float(size.b)
         ) if size else (8, 6)
 
-        df = pd.read_csv(strip_str(source)) if source else None
+        df = load_df_localy_or_kaggle(source)
 
         figure, axes = plt.subplots(rows, cols, figsize=figsize)
         axes = axes.flatten() if rows * cols > 1 else [axes]
@@ -29,7 +76,9 @@ def interpret(model):
         plot_index = 0
 
         for element in fig.elements:
-            if element.__class__.__name__ not in ("LinePlot", "BarPlot", "ScatterPlot", "PiePlot"):
+            plot_name = element.__class__.__name__
+            if plot_name not in ("LinePlot", "BarPlot", "ScatterPlot", "PiePlot", "DefaultPlot"):
+                # plot_name = find_best_plot_type(element)
                 continue
 
             ax = axes[plot_index]
@@ -47,7 +96,10 @@ def interpret(model):
             grid = to_bool(get_value(elems, "Grid", "grid", None))
             legend = to_bool(get_value(elems, "Legend", "legend", None))
 
-            if element.__class__.__name__ == "LinePlot":
+            if plot_name == "DefaultPlot":
+                plot_name = find_best_plot_type(element)
+
+            if plot_name == "LinePlot":
                 x = resolve_expression(df, get_value(elems, "X", "x", None))
                 y = resolve_expression(df, get_value(elems, "Y", "y", None))
 
@@ -61,7 +113,7 @@ def interpret(model):
                 if ylabel:
                     ax.set_ylabel(strip_str(ylabel))
 
-            elif element.__class__.__name__ == "BarPlot":
+            elif plot_name == "BarPlot":
                 x = resolve_expression(df, get_value(elems, "X", "x", None))
                 y_list = get_value(elems, "YList", "y", None)
 
@@ -72,13 +124,13 @@ def interpret(model):
                     color=color
                 )
 
-            elif element.__class__.__name__ == "ScatterPlot":
+            elif plot_name == "ScatterPlot":
                 x = resolve_expression(df, get_value(elems, "X", "x", None))
                 y = resolve_expression(df, get_value(elems, "Y", "y", None))
 
                 ax.scatter(x, y, color=color, label=label)
 
-            elif element.__class__.__name__ == "PiePlot":
+            elif plot_name == "PiePlot":
                 values = get_value(elems, "Values", "values", None)
                 labels = get_value(elems, "Labels", "labels", None)
                 title = get_value(elems, "Title", "title", None)
@@ -105,6 +157,35 @@ def interpret(model):
             plt.savefig(strip_str(output))
             
         plt.show()
+
+def load_kaggle(source):
+    api = KaggleApi()
+    api.authenticate()
+    dataset_dir = "datasets"
+
+    api.dataset_download_files(
+        source,
+        path=dataset_dir,
+        unzip=True
+    )
+
+    csv_files = [
+        os.path.join(dataset_dir, f)
+        for f in os.listdir(dataset_dir)
+        if f.endswith(".csv")
+    ]
+
+    csv_path = max(csv_files, key=os.path.getmtime)
+
+    return pd.read_csv(csv_path)
+
+
+
+def load_df_localy_or_kaggle(source):
+    try:
+        return pd.read_csv(strip_str(source)) if source else None
+    except:
+        return load_kaggle(source)
 
 def get_element(elements, cls_name):
     for el in elements:

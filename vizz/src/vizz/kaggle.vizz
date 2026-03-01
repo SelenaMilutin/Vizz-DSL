@@ -1,0 +1,31 @@
+figure full_dashboard {
+    rows: 2
+    cols: 2
+    source: "algozee/student-productivity-and-behavior-dataset-20k"
+
+    plot {
+        position: (1, 1)
+        x: source.sleep_hours
+        y: source.social_media_hours
+        label: "Online sales"
+        color: "blue"
+        // xlabel: "Month"
+        // ylabel: "Price"
+        // grid: true
+    }
+
+    // bar {
+    //    x: source.sleep_hours
+    //    y: source.social_media_hours
+    //}
+
+    scatter {
+        x: source.sleep_hours
+        y: source.phone_usage_hours
+    }
+
+    // pie {
+    //    values: ["Male", "Female", "Other"]
+    //    labels: ["Male", "Female", "Other"]
+    //}
+}

@@ -1,0 +1,31 @@
+figure full_dashboard {
+    rows: 2
+    cols: 2
+    source: "./datasets/file.csv"
+
+    plot {
+        position: (1, 1)
+        x: source.date
+        y: source.price
+        label: "Online sales"
+        color: "blue"
+        // xlabel: "Month"
+        // ylabel: "Price"
+        // grid: true
+    }
+
+    bar {
+        x: source.date
+        y: [80, 70, 60, 90, 110]
+    }
+
+    scatter {
+        x: source.price
+        y: source.quantity
+    }
+
+    pie {
+        values: [45, 25, 15, 15]
+        labels: ["Product A", "Product B", "Product C", "Product D"]
+    }
+}
