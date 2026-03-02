@@ -19,6 +19,11 @@ figure full_dashboard {
         y: [80, 70, 60, 90, 110]
     }
 
+    //bar {
+    //    x: source.date
+    //    y: source.price
+    //}
+
     scatter {
         x: source.price
         y: source.quantity

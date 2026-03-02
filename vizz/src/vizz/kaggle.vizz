@@ -2,6 +2,7 @@ figure full_dashboard {
     rows: 2
     cols: 2
     source: "algozee/student-productivity-and-behavior-dataset-20k"
+    //source: "datasets/student_productivity_distraction_dataset_20000.csv"
 
     plot {
         position: (1, 1)
@@ -14,18 +15,19 @@ figure full_dashboard {
         // grid: true
     }
 
-    // bar {
-    //    x: source.sleep_hours
-    //    y: source.social_media_hours
-    //}
+    bar {
+        x: source.sleep_hours
+        y: source.social_media_hours
+        max 5
+    }
 
     scatter {
         x: source.sleep_hours
         y: source.phone_usage_hours
     }
 
-    // pie {
-    //    values: ["Male", "Female", "Other"]
-    //    labels: ["Male", "Female", "Other"]
-    //}
+    pie {
+       x: source.gender
+       max 2
+    }
 }

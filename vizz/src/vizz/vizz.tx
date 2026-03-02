@@ -67,6 +67,7 @@ LinePlot:
 BarPlot:
     'bar' '{'
         elements*=PlotElement
+        ("max" max_bars=INT)?
     '}'
 ;
 
@@ -79,6 +80,7 @@ ScatterPlot:
 PiePlot:
     'pie' '{'
         elements*=PlotElement
+        ("max" max_slice=INT)?
     '}'
 ;
 
