@@ -5,7 +5,10 @@ from common import get_value, resolve_expression
 
 def draw_bar_plot(df, ax, element, color, label):
     elems = element.elements
-    max_bars = element.max_bars
+    try:
+        max_bars = element.max_bars
+    except:
+        max_bars = None
     x = resolve_expression(df, get_value(elems, "X", "x", None))
     y = resolve_expression(df, get_value(elems, "Y", "y", None))
     if y is None:

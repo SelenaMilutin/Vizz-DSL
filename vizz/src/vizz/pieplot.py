@@ -5,7 +5,10 @@ from common import get_value, resolve_expression, strip_str
 
 def draw_pie_plot(df, ax, element):
     elems = element.elements
-    max_slice = element.max_slice
+    try:
+        max_slice = element.max_slice
+    except:
+        max_slice = None
     values = get_value(elems, "Values", "values", None)
     labels = get_value(elems, "Labels", "labels", None)
     title = get_value(elems, "Title", "title", None)
@@ -29,7 +32,7 @@ def draw_pie_plot(df, ax, element):
             counts = s.value_counts()
 
             # Limit number of slices
-            if len(counts) > max_slice:
+            if max_slice and len(counts) > max_slice:
                 counts = counts.nlargest(max_slice)
 
             pie_values = counts.values
