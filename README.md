@@ -6,7 +6,9 @@ Vizz je domenski specifičan jezik (DSL) namenjen za grafički prikaz korisnikov
 
 DSL je implementiran korišćenjem textX biblioteke za definisanje gramatike i parsiranje, dok se semantika jezika mapira na Matplotlib biblioteku za iscrtavanje grafika u Pythonu. Na ovaj način, DSL skripta se prevodi u odgovarajući Matplotlib kod koji generiše grafički prikaz.  
 
-Jezik podržava više tipova grafika (linijski grafici, stubičasti grafici, scatter plotovi), rad sa više subplotova unutar jedne figure, osnovno stilizovanje (boje, naslovi, legende, mreže) kao i čuvanje rezultata u fajl.
+Jezik podržava više tipova grafika (linijski grafici, stubičasti grafici, scatter plotovi, pie grafici), rad sa više subplotova unutar jedne figure, osnovno stilizovanje (boje, naslovi, legende, mreže) kao i čuvanje rezultata u fajl.
+
+Jezik poseduje mogućnost samostalnog određivanja vrste grafika na osnovu datih podataka. Podaci se mogu učitati iz date liste, .csv fajla ili iz eksternih izvora (kaggle dataset). Jezik omogućava parametrizaciju maksimalnog broja elemenata na X osi (stubova u bar plotu i isečaka u pie plotu).
 
 ## 2. Korišćene tehnologije  
 
@@ -48,6 +50,12 @@ figure sales_analysis {
         false: false
     }
 
+    bar {
+        x: source.date
+        y: source.price
+        color: "red"
+    }
+
     save: "sales.png"
 }
 ```
@@ -62,4 +70,16 @@ Arhitektura projekta je podeljena u tri sloja:
 Način rada:  
 DSL skripta se učitava iz fajla  
 textX parser generiše model na osnovu definisane gramatike  
-Model se mapira na Matplotlib pozive Matplotlib generiše i prikazuje grafike  
+Model se mapira na Matplotlib pozive Matplotlib generiše i prikazuje grafike 
+
+## 5. Instalacija projekta
+
+Projekat je može instalirati na dva načina:
+1. Pokretanjem komande `pip install -e .` iz korenskog direktorijma.
+2. Pokretanjem komande `pip install -e git+https://github.com/SelenaMilutin/Vizz-DSL.git#egg=vizz`
+
+Pokretanje projekta se vrši komandom `vizz <file.vizz>`.
+
+## 6. Ekstenzija za VSCode
+
+Uz jezik je dostupna ekstenzija za VSCode koja omogućava syntax highlighting, code autocomplete and LSP server za error checking. Ekstenzija se može instalirati ulaskom u VSCode, pokretanjem prečice CTRL + SHIFT + P, biranjem opcije Extensions: Install from VSIX.

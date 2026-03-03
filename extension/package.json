@@ -1,0 +1,58 @@
+{
+  "name": "vizz-dsl",
+  "displayName": "Vizz DSL",
+  "description": "Syntax highlighting and autocomplete for Vizz DSL",
+  "version": "0.0.1",
+  "publisher": "tim",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:vizz"
+  ],
+  "scripts": {
+    "compile": "tsc -p ./",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "14.x",
+    "typescript": "^4.9.5",
+    "@types/vscode": "1.75.0",
+    "vsce": "^2.15.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "vizz",
+        "aliases": [
+          "Vizz",
+          "vizz"
+        ],
+        "extensions": [
+          ".vizz"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vizz",
+        "scopeName": "source.vizz",
+        "path": "./syntaxes/vizz.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "vizz",
+        "path": "./snippets/vizz-snippets.json"
+      }
+    ]
+  }
+}

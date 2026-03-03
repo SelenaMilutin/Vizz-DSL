@@ -1,0 +1,100 @@
+{
+  "Keyword figure": { "prefix": "figure", "body": ["figure"], "description": "Keyword figure" },
+  "Keyword plot": { "prefix": "plot", "body": ["plot"], "description": "Keyword plot" },
+  "Keyword bar": { "prefix": "bar", "body": ["bar"], "description": "Keyword bar" },
+  "Keyword scatter": { "prefix": "scatter", "body": ["scatter"], "description": "Keyword scatter" },
+  "Keyword pie": { "prefix": "pie", "body": ["pie"], "description": "Keyword pie" },
+  "Keyword save": { "prefix": "save", "body": ["save"], "description": "Keyword save" },
+  "Keyword rows": { "prefix": "rows", "body": ["rows"], "description": "Keyword rows" },
+  "Keyword cols": { "prefix": "cols", "body": ["cols"], "description": "Keyword cols" },
+  "Keyword size": { "prefix": "size", "body": ["size"], "description": "Keyword size" },
+  "Keyword title": { "prefix": "title", "body": ["title"], "description": "Keyword title" },
+  "Keyword source": { "prefix": "source", "body": ["source"], "description": "Keyword source" },
+  "Keyword position": { "prefix": "position", "body": ["position"], "description": "Keyword position" },
+  "Keyword x": { "prefix": "x", "body": ["x"], "description": "Keyword x" },
+  "Keyword y": { "prefix": "y", "body": ["y"], "description": "Keyword y" },
+  "Keyword values": { "prefix": "values", "body": ["values"], "description": "Keyword values" },
+  "Keyword labels": { "prefix": "labels", "body": ["labels"], "description": "Keyword labels" },
+  "Keyword color": { "prefix": "color", "body": ["color"], "description": "Keyword color" },
+  "Keyword label": { "prefix": "label", "body": ["label"], "description": "Keyword label" },
+  "Keyword xlabel": { "prefix": "xlabel", "body": ["xlabel"], "description": "Keyword xlabel" },
+  "Keyword ylabel": { "prefix": "ylabel", "body": ["ylabel"], "description": "Keyword ylabel" },
+  "Keyword legend": { "prefix": "legend", "body": ["legend"], "description": "Keyword legend" },
+  "Keyword grid": { "prefix": "grid", "body": ["grid"], "description": "Keyword grid" },
+  "Keyword maxgrid": { "prefix": "max", "body": ["max"], "description": "Keyword max" },
+
+  "Figure": {
+    "prefix": "figure",
+    "body": [
+      "figure ${1:name} {",
+      "\tsize: (${2:10}, ${3:6})",
+      "\trows: ${4:1}",
+      "\tcols: ${5:1}",
+      "\tsource: \"${6:./data.csv}\"",
+      "\t$0",
+      "}"
+    ],
+    "description": "Create a figure"
+  },
+
+  "Line Plot": {
+    "prefix": "plot",
+    "body": [
+      "plot {",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: ${4:column_y}",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:blue}\"",
+      "\txlabel: \"${7:X}\"",
+      "\tylabel: \"${8:Y}\"",
+      "\tlegend: ${9:true}",
+      "\tgrid: ${10:true}",
+      "}"
+    ],
+    "description": "Create a line plot"
+  },
+
+  "Bar Plot": {
+    "prefix": "bar",
+    "body": [
+      "bar {",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: [${4:10, 20, 30}]",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:orange}\"",
+      "\tlegend: ${7:true}",
+      "}"
+    ],
+    "description": "Create a bar plot"
+  },
+
+  "Scatter Plot": {
+    "prefix": "scatter",
+    "body": [
+      "scatter {",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tx: ${3:column_x}",
+      "\ty: ${4:column_y}",
+      "\tlabel: \"${5:label}\"",
+      "\tcolor: \"${6:red}\"",
+      "\tgrid: ${7:true}",
+      "}"
+    ],
+    "description": "Create a scatter plot"
+  },
+
+  "Pie Plot": {
+    "prefix": "pie",
+    "body": [
+      "pie {",
+      "\tposition: (${1:1}, ${2:1})",
+      "\tvalues: [${3:10, 20, 30}]",
+      "\tlabels: [\"${4:A}\", \"${5:B}\", \"${6:C}\"]",
+      "\ttitle: \"${7:Pie Chart}\"",
+      "}"
+    ],
+    "description": "Create a pie chart"
+  }
+}
