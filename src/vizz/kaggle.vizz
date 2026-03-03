@@ -1,0 +1,35 @@
+figure full_dashboard {
+    rows: 2
+    cols: 2
+    title: "naslov"
+    save: "img.jpg"
+    // source: "algozee/student-productivity-and-behavior-dataset-20k"
+    source: "datasets/student_productivity_distraction_dataset_20000.csv"
+
+    plot {
+        position: (1, 1)
+        x: source.sleep_hours
+        y: source.social_media_hours
+        label: "Online sales"
+        // xlabel: "Month"
+        // ylabel: "Price"
+        // grid: true
+        color: "red"
+    }
+
+    bar {
+        x: source.sleep_hours
+        y: source.social_media_hours
+        color: "red"
+    }
+
+    scatter {
+        x: source.sleep_hours
+        y: source.phone_usage_hours
+    }
+
+    pie {
+       x: source.gender
+       //max 100
+    }
+}

@@ -1,0 +1,65 @@
+node_modules
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual environments
+# =========================
+venv/
+venv2/
+.venv/
+env/
+ENV/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+!extension/.vscode/
+.idea/
+*.iml
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Matplotlib output
+# =========================
+*.png
+*.jpg
+*.svg
+*.pdf
+
+# =========================
+# textX / parser artifacts
+# =========================
+*.tx~
+*.bak
+
+# =========================
+# Jupyter (ako ikad dodaš)
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Build / distribution
+# =========================
+build/
+dist/
+*.egg-info/
+
+datasets/*
+!datasets/.gitkeep
