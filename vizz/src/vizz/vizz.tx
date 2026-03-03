@@ -26,7 +26,7 @@ Source: 'source:' source=STRING ;
 Save:   'save:' output=STRING ;
 
 Plot:
-    LinePlot | BarPlot | ScatterPlot | PiePlot
+    LinePlot | BarPlot | ScatterPlot | PiePlot | DefaultPlot
 ;
 
 PlotElement:
@@ -67,6 +67,7 @@ LinePlot:
 BarPlot:
     'bar' '{'
         elements*=PlotElement
+        ("max" max_bars=INT)?
     '}'
 ;
 
@@ -78,6 +79,13 @@ ScatterPlot:
 
 PiePlot:
     'pie' '{'
+        elements*=PlotElement
+        ("max" max_slice=INT)?
+    '}'
+;
+
+DefaultPlot:
+    '{'
         elements*=PlotElement
     '}'
 ;

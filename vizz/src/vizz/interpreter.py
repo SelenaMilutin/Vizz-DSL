@@ -1,8 +1,57 @@
 import sys
 import os
-import pandas as pd
 import matplotlib.pyplot as plt
 from textx import metamodel_from_file
+
+from barplot import draw_bar_plot
+from pieplot import draw_pie_plot
+from common import *
+
+def find_best_plot_type(element):
+    """
+    Infer best plot type for DefaultPlot.
+
+    Rules:
+    - If Values present → PiePlot
+    - If YList present → BarPlot
+    - If X and Y present:
+        - If X looks categorical → BarPlot
+        - Else → LinePlot
+    - Fallback → LinePlot
+    """
+
+    elems = element.elements
+
+    # Check for PiePlot
+    values = get_value(elems, "Values", "values", None)
+    labels = get_value(elems, "Labels", "labels", None)
+    if values is not None:
+        return "PiePlot"
+
+    # Check for BarPlot with YList
+    y_list = get_value(elems, "YList", "y", None)
+    if y_list is not None:
+        return "BarPlot"
+
+    # Check for X/Y
+    x = get_value(elems, "X", "x", None)
+    y = get_value(elems, "Y", "y", None)
+
+    if x is not None and y is not None:
+        if isinstance(x, str):
+            name = x.lower()
+            if any(word in name for word in ["category", "type", "group", "class"]):
+                return "BarPlot"
+
+        # Default numeric relation → line plot
+        return "LinePlot"
+
+    # If only Y exists → treat as bar
+    if y is not None:
+        return "BarPlot"
+
+    # Final fallback
+    return "LinePlot"
 
 def interpret(model):
     for fig in model.figures:
@@ -18,7 +67,7 @@ def interpret(model):
             float(size.a), float(size.b)
         ) if size else (8, 6)
 
-        df = pd.read_csv(strip_str(source)) if source else None
+        df = load_df_localy_or_kaggle(source)
 
         figure, axes = plt.subplots(rows, cols, figsize=figsize)
         axes = axes.flatten() if rows * cols > 1 else [axes]
@@ -29,7 +78,9 @@ def interpret(model):
         plot_index = 0
 
         for element in fig.elements:
-            if element.__class__.__name__ not in ("LinePlot", "BarPlot", "ScatterPlot", "PiePlot"):
+            plot_name = element.__class__.__name__
+            if plot_name not in ("LinePlot", "BarPlot", "ScatterPlot", "PiePlot", "DefaultPlot"):
+                # plot_name = find_best_plot_type(element)
                 continue
 
             ax = axes[plot_index]
@@ -47,7 +98,10 @@ def interpret(model):
             grid = to_bool(get_value(elems, "Grid", "grid", None))
             legend = to_bool(get_value(elems, "Legend", "legend", None))
 
-            if element.__class__.__name__ == "LinePlot":
+            if plot_name == "DefaultPlot":
+                plot_name = find_best_plot_type(element)
+
+            if plot_name == "LinePlot":
                 x = resolve_expression(df, get_value(elems, "X", "x", None))
                 y = resolve_expression(df, get_value(elems, "Y", "y", None))
 
@@ -61,37 +115,17 @@ def interpret(model):
                 if ylabel:
                     ax.set_ylabel(strip_str(ylabel))
 
-            elif element.__class__.__name__ == "BarPlot":
-                x = resolve_expression(df, get_value(elems, "X", "x", None))
-                y_list = get_value(elems, "YList", "y", None)
+            elif plot_name == "BarPlot":
+                draw_bar_plot(df, ax, element, color, label)
 
-                ax.bar(
-                    x if x is not None else range(len(y_list.values)),
-                    y_list.values,
-                    label=label,
-                    color=color
-                )
-
-            elif element.__class__.__name__ == "ScatterPlot":
+            elif plot_name == "ScatterPlot":
                 x = resolve_expression(df, get_value(elems, "X", "x", None))
                 y = resolve_expression(df, get_value(elems, "Y", "y", None))
 
                 ax.scatter(x, y, color=color, label=label)
 
-            elif element.__class__.__name__ == "PiePlot":
-                values = get_value(elems, "Values", "values", None)
-                labels = get_value(elems, "Labels", "labels", None)
-                title = get_value(elems, "Title", "title", None)
-
-                ax.pie(
-                    values.values,
-                    labels=[strip_str(l) for l in labels.values] if labels else None,
-                    autopct='%1.1f%%',
-                    startangle=90
-                )
-
-                if title:
-                    ax.set_title(strip_str(title))
+            elif plot_name == "PiePlot":
+                draw_pie_plot(df, ax, element)
 
             if grid:
                 ax.grid()
@@ -106,44 +140,6 @@ def interpret(model):
             
         plt.show()
 
-def get_element(elements, cls_name):
-    for el in elements:
-        if el.__class__.__name__ == cls_name:
-            return el
-    return None
-
-def get_value(elements, cls_name, attr, default=None):
-    el = get_element(elements, cls_name)
-    return getattr(el, attr) if el else default
-
-def strip_str(val):
-    return val.strip('"') if isinstance(val, str) else val
-
-def to_bool(val, default=False):
-    if val is None:
-        return default
-
-    if isinstance(val, bool):
-        return val
-
-    if isinstance(val, str):
-        return val.lower() == "true"
-
-    return default
-
-def resolve_expression(df, expr):
-    if expr is None:
-        return None
-
-    if isinstance(expr, str):
-        name = expr.split(".")[-1]
-    else:
-        name = expr.id
-
-    if name not in df.columns:
-        raise ValueError(f"Column '{name}' not found in CSV")
-
-    return df[name]
 
 def main():
     mm = metamodel_from_file(os.path.join(os.path.dirname(__file__), "vizz.tx"))
