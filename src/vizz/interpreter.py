@@ -3,9 +3,9 @@ import os
 import matplotlib.pyplot as plt
 from textx import metamodel_from_file
 
-from barplot import draw_bar_plot
-from pieplot import draw_pie_plot
-from common import *
+from .barplot import draw_bar_plot
+from .pieplot import draw_pie_plot
+from .common import *
 
 def find_best_plot_type(element):
     """

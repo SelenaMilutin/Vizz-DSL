@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "textX>=4.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vizz"
+version = "0.1.0"
+description = "Domain-specific language for data visualization using TextX"
+requires-python = ">=3.9"
+dependencies = [
+    "textX>=4.0",
+    "pandas",
+    "matplotlib",
+    "kaggle"
+]
+
+[project.scripts]
+vizz = "vizz.interpreter:main"
+
+[project.entry-points.textx_languages]
+vizz = "vizz.language:vizz_language"
+
+[project.urls]
+Homepage = "https://github.com/SelenaMilutin/Vizz-DSL"

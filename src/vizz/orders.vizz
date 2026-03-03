@@ -1,0 +1,27 @@
+figure full_dashboard {
+    rows: 2
+    cols: 2
+    title: "Orders"
+    save: "orders.jpg"
+    source: "datasets/orders.csv"
+
+    bar {
+        x: source.order_date
+        y: source.quantity
+        color: "red"
+    }
+
+    scatter {
+        x: source.quantity
+        y: source.unit_price
+    }
+
+    pie {
+       x: source.category
+    }
+
+    {
+        x: source.order_date
+        y: source.quantity
+    }
+}
