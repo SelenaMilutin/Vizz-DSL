@@ -1,0 +1,66 @@
+{
+  "scopeName": "source.vizz",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#booleans" }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.vizz",
+          "match": "\\b(figure|plot|bar|scatter|pie|save|rows|cols|size|title|source|position|x|y|values|labels|color|label|xlabel|ylabel|legend|grid|max)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.vizz",
+          "match": "\\b(source)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.vizz",
+          "match": "\"[^\"]*\""
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.vizz",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "booleans": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.vizz",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.vizz",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.vizz",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    }
+  }
+}
