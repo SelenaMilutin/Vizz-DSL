@@ -1,6 +1,6 @@
 import pandas as pd
 
-from common import get_value, resolve_expression
+from .common import get_value, resolve_expression
 
 
 def draw_bar_plot(df, ax, element, color, label):

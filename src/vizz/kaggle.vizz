@@ -1,8 +1,10 @@
 figure full_dashboard {
     rows: 2
     cols: 2
-    source: "algozee/student-productivity-and-behavior-dataset-20k"
-    // source: "datasets/student_productivity_distraction_dataset_20000.csv"
+    title: "naslov"
+    save: "img.jpg"
+    // source: "algozee/student-productivity-and-behavior-dataset-20k"
+    source: "datasets/student_productivity_distraction_dataset_20000.csv"
 
     plot {
         position: (1, 1)

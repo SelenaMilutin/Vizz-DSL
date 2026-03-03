@@ -1,6 +1,6 @@
 import pandas as pd
 
-from common import get_value, resolve_expression, strip_str
+from .common import get_value, resolve_expression, strip_str
 
 
 def draw_pie_plot(df, ax, element):
